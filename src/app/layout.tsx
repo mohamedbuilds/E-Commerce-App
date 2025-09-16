@@ -4,7 +4,7 @@ import "./globals.css";
 
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import Navbar from "./_components/Navbar/Navbar";
-
+import { Toaster } from "react-hot-toast";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,6 +32,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <Toaster position="top-right" />
       </body>
     </html>
   );

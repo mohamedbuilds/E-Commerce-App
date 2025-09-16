@@ -12,8 +12,9 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import getAllProducts from "@/api/getAllProducts.api.";
 import Link from "next/link";
+import { ProdcutType } from "@/Types/ProductType";
 export default async function Products() {
-  let data = await getAllProducts();
+  const data = await getAllProducts();
 
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
@@ -22,7 +23,7 @@ export default async function Products() {
       </h2>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {data?.map((product) => (
+        {data?.map((product: ProdcutType) => (
           <Card
             key={product.id}
             className="hover:shadow-xl transition rounded-2xl overflow-hidden"

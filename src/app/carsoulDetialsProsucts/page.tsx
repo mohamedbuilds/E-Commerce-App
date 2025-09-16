@@ -7,8 +7,9 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import { ProdcutType } from '../../Types/ProductType';
 
-export default function CarsoulProduct({ dataDetials }) {
+export default function CarsoulProduct({ dataDetials }: {dataDetials: ProdcutType}) {
   const plugin = React.useRef(
     Autoplay({ delay: 1500, stopOnInteraction: true })
   );

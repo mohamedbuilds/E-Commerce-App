@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 import CarsoulProduct from "@/app/carsoulDetialsProsucts/page";
 import getSpicitifyProducts from "../../../api/getSpicitifyProducts";
 
-export default async function DetilasProduct({ params }) {
-  let { id } = await params;
+export default async function DetilasProduct({ params }: {params:{id: string}}) {
+  const  { id  } = await params;
 
- let data =  await getSpicitifyProducts(id);
+ const data =  await getSpicitifyProducts(id);
 
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
@@ -15,7 +15,6 @@ export default async function DetilasProduct({ params }) {
         <div>
           <CarsoulProduct dataDetials={data} />
         </div>
-
         {/* Right: Product Details */}
         <div className="flex flex-col justify-between">
           <div>
