@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-
+import { signIn } from "next-auth/react";
 export default function Login() {
   const route = useRouter();
   const form = useForm<LoginFormValues>({
@@ -27,28 +27,42 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
   async function handelLogin(values: LoginFormValues) {
-    console.log(values);
-    // Call Api
+    const response = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+      callbackUrl: "/",
+    });
+    console.log(response);
 
-    try {
-      const response = await axios.post(
-        `https://ecommerce.routemisr.com/api/v1/auth/signin`,
-        values
-      );
-      console.log(response);
-      if (response.data.message == "success") {
-        toast.success("Logged in successfully");
-        route.push("/");
-      } else {
-      }
-    } catch (error: unknown) {
-      // Type guard
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Something went wrong");
-      } else {
-        toast.error("Something went wrong");
-      }
+    if (response?.ok) {
+      // True
+      toast.success("Logged in successfully")
+      window.location.href = "/";
+    } else {
+      //
+      toast.error(response?.error)
     }
+
+    // try {
+    //   const response = await axios.post(
+    //     `https://ecommerce.routemisr.com/api/v1/auth/signin`,
+    //     values
+    //   );
+    //   console.log(response);
+    //   if (response.data.message == "success") {
+    //     toast.success("Logged in successfully");
+    //     route.push("/");
+    //   } else {
+    //   }
+    // } catch (error: unknown) {
+    //   // Type guard
+    //   if (axios.isAxiosError(error)) {
+    //     toast.error(error.response?.data?.message || "Something went wrong");
+    //   } else {
+    //     toast.error("Something went wrong");
+    //   }
+    // }
   }
 
   return (
@@ -61,8 +75,6 @@ export default function Login() {
             onSubmit={form.handleSubmit(handelLogin)}
             className="flex flex-col gap-4"
           >
-
-
             {/* Email */}
             <FormField
               control={form.control}
@@ -102,9 +114,6 @@ export default function Login() {
             />
 
             {/* RePassword */}
-            
-
-            
 
             <Button className="mt-4 w-full py-2 text-lg">Login</Button>
           </form>
