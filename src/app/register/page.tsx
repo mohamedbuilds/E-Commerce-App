@@ -13,11 +13,12 @@ import { RegisterFormValues, registerSchema } from "@/schema/register.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function Register() {
+  const [load, setload] = useState(false);
   const route = useRouter();
   const form = useForm<RegisterFormValues>({
     defaultValues: {
@@ -34,6 +35,7 @@ export default function Register() {
     // Call Api
 
     try {
+      setload(true);
       const response = await axios.post(
         `https://ecommerce.routemisr.com/api/v1/auth/signup`,
         values
@@ -45,12 +47,15 @@ export default function Register() {
       } else {
       }
     } catch (error: unknown) {
+      setload(false);
       // Type guard
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data?.message || "Something went wrong");
       } else {
         toast.error("Something went wrong");
       }
+    } finally {
+      setload(false);
     }
   }
 
@@ -157,8 +162,13 @@ export default function Register() {
                 </FormItem>
               )}
             />
-
-            <Button className="mt-4 w-full py-2 text-lg">Register</Button>
+            <Button className="mt-4 w-full py-2 text-lg cursor-pointer">
+              {load ? (
+                <i className="fas fa-spinner animate-spin text-white"></i>
+              ) : (
+                "Register"
+              )}
+            </Button>
           </form>
         </Form>
       </div>

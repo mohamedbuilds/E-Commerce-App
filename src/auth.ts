@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { jwtDecode } from "jwt-decode";
+
 export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
@@ -26,9 +27,9 @@ export const authOptions: NextAuthOptions = {
         console.log(payload);
 
         if (payload.message == "success") {
-          const decoded: { id: string } = jwtDecode(payload.token);
+          const decodedId: { id: string } = jwtDecode(payload.token);
           return {
-            id: decoded.id,
+            id: decodedId.id,
             user: payload.user,
             token: payload.token,
           };
@@ -48,8 +49,9 @@ export const authOptions: NextAuthOptions = {
 
       return token;
     },
-    async session({ session, token }) {
+    async session({ token, session }) {
       session.user = token.user;
+
       return session;
     },
   },

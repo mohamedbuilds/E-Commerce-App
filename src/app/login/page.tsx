@@ -11,14 +11,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoginFormValues, loginSchema } from "@/schema/login.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 export default function Login() {
-  const route = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<LoginFormValues>({
     defaultValues: {
       email: "",
@@ -27,44 +25,22 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
   async function handelLogin(values: LoginFormValues) {
+    setIsLoading(true);
     const response = await signIn("credentials", {
       email: values.email,
       password: values.password,
       redirect: false,
       callbackUrl: "/",
     });
-    console.log(response);
+    setIsLoading(false);
 
     if (response?.ok) {
-      // True
-      toast.success("Logged in successfully")
+      toast.success("Login successful!");
       window.location.href = "/";
     } else {
-      //
-      toast.error(response?.error)
+      toast.error(response?.error || "Login failed!");
     }
-
-    // try {
-    //   const response = await axios.post(
-    //     `https://ecommerce.routemisr.com/api/v1/auth/signin`,
-    //     values
-    //   );
-    //   console.log(response);
-    //   if (response.data.message == "success") {
-    //     toast.success("Logged in successfully");
-    //     route.push("/");
-    //   } else {
-    //   }
-    // } catch (error: unknown) {
-    //   // Type guard
-    //   if (axios.isAxiosError(error)) {
-    //     toast.error(error.response?.data?.message || "Something went wrong");
-    //   } else {
-    //     toast.error("Something went wrong");
-    //   }
-    // }
   }
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
@@ -115,7 +91,16 @@ export default function Login() {
 
             {/* RePassword */}
 
-            <Button className="mt-4 w-full py-2 text-lg">Login</Button>
+            <Button
+              className="mt-4 w-full py-2 text-lg flex justify-center items-center cursor-pointer"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <i className="fas fa-spinner animate-spin text-white"></i>
+              ) : (
+                "Login"
+              )}
+            </Button>
           </form>
         </Form>
       </div>

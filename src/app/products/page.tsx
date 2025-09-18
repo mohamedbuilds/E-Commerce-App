@@ -1,21 +1,20 @@
 import React from "react";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import getAllProducts from "@/api/getAllProducts.api.";
 import Link from "next/link";
 import { ProdcutType } from "@/Types/ProductType";
+import AddBtn from "../AddBtn/AddBtn";
 export default async function Products() {
   const data = await getAllProducts();
-
+  console.log(data)
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
       <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">
@@ -82,7 +81,7 @@ export default async function Products() {
             </CardFooter>
 
             <div className="px-4 pb-4">
-              <Button className="w-full">Add To Cart</Button>
+              <AddBtn id={product?._id}/>
             </div>
           </Card>
         ))}

@@ -1,13 +1,22 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
-import React, { useState } from "react";
+import { loggedUserCart } from "@/redux/cartSlice";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 export default function Navbar() {
+  const dispatch = useDispatch<AppDispatch>();
+  const numOfCartItems = useSelector(
+    (state: RootState) => state?.cartSlice.numOfCartItems
+  );
+  useEffect(() => {
+    dispatch(loggedUserCart());
+  }, [dispatch]);
   const [open, setOpen] = useState(false);
   const { data: session, status } = useSession();
   if (status === "loading") return null;
-  console.log(session);
 
   function logOut() {
     signOut({ callbackUrl: "/login" });
@@ -34,8 +43,16 @@ export default function Navbar() {
                 <Link href="/" className="hover:text-indigo-500 transition">
                   Home
                 </Link>
-                <Link href="/cart" className="hover:text-indigo-500 transition">
-                  Cart
+                <Link
+                  href="/cart"
+                  className="relative flex items-center gap-2 px-2 py-1 hover:text-indigo-500 transition-colors"
+                >
+                  <span>Cart</span>
+                  {numOfCartItems > 0 && (
+                    <span className="absolute -top-2 -right-3 inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-fuchsia-800 rounded-full">
+                      {numOfCartItems}
+                    </span>
+                  )}
                 </Link>
                 <Link
                   href="/products"

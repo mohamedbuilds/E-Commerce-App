@@ -1,5 +1,5 @@
 import NextAuth, { User } from "next-auth";
-import { JWT } from "next-auth/jwt"
+import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
   interface User {
@@ -7,19 +7,17 @@ declare module "next-auth" {
       name: string;
       email: string;
       role: string;
+      language: string,
     };
     token: string;
   }
   interface Session {
-    user: User['user']
+    user: User["user"];
   }
 }
 
-
 declare module "next-auth/jwt" {
-  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
-  interface JWT extends User{
-    /** OpenID ID Token */
-    idToken?: string
+  interface JWT extends User {
+    idToken?: string;
   }
 }

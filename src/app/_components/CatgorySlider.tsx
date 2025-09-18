@@ -4,7 +4,6 @@ import SwiperCatgorySlider from "./SwiperCatgorySlider";
 
 export default async function CatgorySlider() {
   const data = await getAllCatgorySlider();
-  console.log(data);
   return (
     <div className="w-full mt-8 px-4">
       <h2 className="text-xl font-semibold mb-4">Categories</h2>

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import CarsoulProduct from "@/app/carsoulDetialsProsucts/page";
 import getSpicitifyProducts from "../../../api/getSpicitifyProducts";
+import AddBtn from "@/app/AddBtn/AddBtn";
 
 export default async function DetilasProduct({ params }: {params:{id: string}}) {
   const  { id  } = await params;
@@ -47,7 +48,7 @@ export default async function DetilasProduct({ params }: {params:{id: string}}) 
             </div>
           </div>
 
-          <Button className="w-full mt-6 py-3 text-lg">Add To Cart</Button>
+          <AddBtn id={data.id}/>
         </div>
       </div>
     </div>
