@@ -4,7 +4,7 @@ import CarsoulProduct from "@/app/carsoulDetialsProsucts/page";
 import getSpicitifyProducts from "../../../api/getSpicitifyProducts";
 import AddBtn from "@/app/AddBtn/AddBtn";
 
-export default async function DetilasProduct({ params }: {params:{id: string}}) {
+export default async function DetilasProduct({ params }: {params:Promise<{id: string}>}) {
   const  { id  } = await params;
 
  const data =  await getSpicitifyProducts(id);

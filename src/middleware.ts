@@ -5,18 +5,23 @@ export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
 
   if (token) {
-    return NextResponse.next();
+    if (
+      request.nextUrl.pathname == "/login" ||
+      request.nextUrl.pathname == "/register"
+    ) {
+      return NextResponse.redirect(new URL("/", request.url));
+    } else {
+      return NextResponse.next();
+    }
   } else {
-    return NextResponse.redirect(new URL("/login", request.url));
+    if (request.nextUrl.pathname == "/cart") {
+      return NextResponse.redirect(new URL("/login", request.url));
+    } else {
+      return NextResponse.next();
+    }
   }
 }
 
 export const config = {
-  matcher: [
-    "/brand",
-    "/carsoulDetialsProsucts",
-    "/cart",
-    "/categories",
-    "/products",
-  ],
+  matcher: ["/cart"],
 };

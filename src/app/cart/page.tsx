@@ -18,7 +18,10 @@ import { Root } from "@/Types/cartType";
 
 export default function Cart() {
   const [load, setload] = useState(false);
+  const [loadClear, setloadClear] = useState(false);
+  const [loadPage, setloadPage] = useState(false);
   const [loadCount, setloadCount] = useState(false);
+  const [disabled, setdisabled] = useState(false);
   const [idItems, setidItems] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const cart = useSelector(
@@ -27,13 +30,12 @@ export default function Cart() {
   const cartData = useSelector(
     (state: RootState) => state?.cartSlice.cart.data
   );
-  console.log(cart[0]);
   async function removeCartItems(id: string) {
     try {
       setload(true);
+      setdisabled(true);
       setidItems(id);
       const res = await dispatch(removeUserCart(id));
-      console.log(res);
       if (res.payload.status == "success") {
         toast.success("🗑️ Item removed from cart successfully");
       } else {
@@ -41,17 +43,19 @@ export default function Cart() {
       }
     } catch (error) {
       setload(false);
+      setdisabled(false);
     } finally {
       setload(false);
+      setdisabled(false);
     }
   }
 
   async function updtaeCartItems(id: string, count: number) {
     try {
       setloadCount(true);
+      setdisabled(true);
       setidItems(id);
       const res = await dispatch(updateUserCart({ id, count }));
-      console.log(res);
       if (res.payload.status == "success") {
         toast.success(" Quantity updated successfully!");
       } else {
@@ -59,15 +63,18 @@ export default function Cart() {
       }
     } catch (error) {
       setloadCount(false);
+      setdisabled(false);
       console.log(error);
     } finally {
       setloadCount(false);
+      setdisabled(false);
     }
   }
 
   async function clearCartItems() {
     try {
-      setload(true);
+      setloadClear(true);
+      setdisabled(true);
       const res = await dispatch(clearUserCart());
       console.log(res);
       if (res.payload.message == "success") {
@@ -76,18 +83,35 @@ export default function Cart() {
         toast.error("⚠️ Failed to clear cart, please try again.");
       }
     } catch (error) {
-      setload(false);
+      setloadClear(false);
+      setdisabled(false);
       console.log(error);
       toast.error("❌ Something went wrong while clearing the cart.");
     } finally {
-      setload(false);
+      setloadClear(false);
+      setdisabled(false);
     }
   }
 
   useEffect(() => {
-    dispatch(loggedUserCart());
+    const fetchCart = async () => {
+      setloadPage(true);
+      await dispatch(loggedUserCart());
+      setloadPage(false);
+    };
+
+    fetchCart();
   }, [dispatch]);
 
+  // Handle the initial loading state for the entire page
+  if (loadPage) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <i className="fas fa-spinner animate-spin text-4xl text-gray-600"></i>
+        <p className="ml-2 text-lg">Loading cart...</p>
+      </div>
+    );
+  }
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <h1 className="text-4xl font-bold mb-4 text-center text-gray-800 mt-20">
@@ -104,9 +128,10 @@ export default function Cart() {
             <Button
               onClick={clearCartItems}
               size="sm"
-              className="bg-yellow-500 cursor-pointer hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
+              disabled={disabled}
+              className="bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200 cursor-pointer hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
             >
-              {load ? (
+              {loadClear ? (
                 <>
                   <i className="fas fa-spinner animate-spin text-gray-600"></i>
                 </>
@@ -146,7 +171,8 @@ export default function Cart() {
                         updtaeCartItems(item.product._id, item.count - 1)
                       }
                       size="sm"
-                      className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 cursor-pointer"
+                      disabled={disabled}
+                      className="px-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200  py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 cursor-pointer"
                     >
                       -
                     </Button>
@@ -164,7 +190,8 @@ export default function Cart() {
                         updtaeCartItems(item.product._id, item.count + 1)
                       }
                       size="sm"
-                      className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 cursor-pointer"
+                      disabled={disabled}
+                      className="px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 cursor-pointer"
                     >
                       +
                     </Button>
@@ -177,8 +204,9 @@ export default function Cart() {
 
                 <CardFooter className="pt-0">
                   <Button
+                  disabled={disabled}
                     onClick={() => removeCartItems(item.product._id)}
-                    className="w-full bg-red-500 hover:bg-red-600 text-white cursor-pointer"
+                    className="w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200 bg-red-500 hover:bg-red-600 text-white cursor-pointer"
                   >
                     {load && idItems === item.product._id ? (
                       <i className="fas fa-spinner animate-spin text-white"></i>

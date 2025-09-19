@@ -24,15 +24,12 @@ const initialState: {
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
-  async (productId: string, thunkAPI) => {
+  async (productId: string) => {
     try {
       const data = await addToCartServer(productId);
       return data; // ده هيتخزن في action.payload
     } catch (error) {
-      const message =
-        (error as { response?: { data?: { message?: string } } })?.response
-          ?.data?.message || "Something went wrong";
-      return thunkAPI.rejectWithValue(message);
+      return error.message
     }
   }
 );
