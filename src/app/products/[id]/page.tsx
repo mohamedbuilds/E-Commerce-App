@@ -3,12 +3,15 @@ import { Button } from "@/components/ui/button";
 import CarsoulProduct from "@/app/carsoulDetialsProsucts/page";
 import getSpicitifyProducts from "../../../api/getSpicitifyProducts";
 import AddBtn from "@/app/AddBtn/AddBtn";
+import { getRelatedProducts } from "@/RelatedProductsAction/RelatedProductsAction";
+import RelatedProductsShow from "@/RelatedProductsShow/RelatedProductsShow";
 
 export default async function DetilasProduct({ params }: {params:Promise<{id: string}>}) {
   const  { id  } = await params;
 
  const data =  await getSpicitifyProducts(id);
-
+ const dataRealated = await getRelatedProducts(data?.category?._id)
+console.log(dataRealated)
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 py-16">
@@ -51,6 +54,7 @@ export default async function DetilasProduct({ params }: {params:Promise<{id: st
           <AddBtn id={data.id}/>
         </div>
       </div>
+      <RelatedProductsShow data = {dataRealated}/>
     </div>
   );
 }

@@ -27,6 +27,8 @@ export default function Cart() {
   const cart = useSelector(
     (state: RootState) => state?.cartSlice?.cart?.data?.products
   );
+  const cartId = useSelector((state: RootState) => state?.cartSlice?.cart?.cartId);
+  console.log(cartId)
   const cartData = useSelector(
     (state: RootState) => state?.cartSlice.cart.data
   );
@@ -122,6 +124,19 @@ export default function Cart() {
         🛍️ Total: ${cartData?.totalCartPrice || 0}
       </p>
 
+      {/* Checkout Button */}
+      <Link href={`/cheakout/${cartId}`} className="flex justify-center gap-4 mb-6">
+        <Button
+          className="relative cursor-pointer overflow-hidden bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 
+                     hover:from-cyan-500 hover:to-emerald-500 text-white px-10 py-3 
+                     rounded-xl shadow-xl text-lg font-bold tracking-wide transition-all 
+                     transform hover:scale-105 active:scale-95 duration-300 ease-in-out"
+        >
+          <span className="relative z-10">🚀 Checkout</span>
+          <span className="absolute inset-0 bg-white/20 blur-xl opacity-50 animate-pulse"></span>
+        </Button>
+      </Link>
+
       {cart?.length > 0 ? (
         <>
           <div className="flex justify-end mb-4">
@@ -132,9 +147,7 @@ export default function Cart() {
               className="bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200 cursor-pointer hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
             >
               {loadClear ? (
-                <>
-                  <i className="fas fa-spinner animate-spin text-gray-600"></i>
-                </>
+                <i className="fas fa-spinner animate-spin text-gray-600"></i>
               ) : (
                 "Clear All Cart"
               )}
@@ -172,7 +185,7 @@ export default function Cart() {
                       }
                       size="sm"
                       disabled={disabled}
-                      className="px-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200  py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 cursor-pointer"
+                      className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200"
                     >
                       -
                     </Button>
@@ -191,7 +204,7 @@ export default function Cart() {
                       }
                       size="sm"
                       disabled={disabled}
-                      className="px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 cursor-pointer"
+                      className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200"
                     >
                       +
                     </Button>
@@ -204,9 +217,9 @@ export default function Cart() {
 
                 <CardFooter className="pt-0">
                   <Button
-                  disabled={disabled}
+                    disabled={disabled}
                     onClick={() => removeCartItems(item.product._id)}
-                    className="w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200 bg-red-500 hover:bg-red-600 text-white cursor-pointer"
+                    className="w-full bg-red-500 hover:bg-red-600 text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200"
                   >
                     {load && idItems === item.product._id ? (
                       <i className="fas fa-spinner animate-spin text-white"></i>

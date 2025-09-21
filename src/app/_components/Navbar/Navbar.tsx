@@ -16,7 +16,6 @@ export default function Navbar() {
   }, [dispatch]);
   const [open, setOpen] = useState(false);
   const { data: session, status } = useSession();
-  console.log(session)
   if (status === "loading") return null;
 
   function logOut() {

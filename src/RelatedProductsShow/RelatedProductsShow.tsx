@@ -1,29 +1,22 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import Image from "next/image";
-import getAllProducts from "@/api/getAllProducts.api.";
-import Link from "next/link";
-import { ProdcutType } from "@/Types/ProductType";
-import AddBtn from "../AddBtn/AddBtn";
-export default async function Products() {
-  const data = await getAllProducts();
-  console.log(data)
-  
+'use client'
+import AddBtn from '@/app/AddBtn/AddBtn';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { ProdcutType } from '@/Types/ProductType';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react'
+
+
+export default function RelatedProductsShow({data}) {
+  console.log(data.data)
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
       <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">
-        Our Products
+        Related Product
       </h2>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {data?.map((product: ProdcutType) => (
+        {data?.data?.map((product: ProdcutType) => (
           <Card
             key={product.id}
             className="hover:shadow-xl transition rounded-2xl overflow-hidden"
