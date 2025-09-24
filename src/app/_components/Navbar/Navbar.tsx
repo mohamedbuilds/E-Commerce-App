@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "../../../redux/store";
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>();
-    // Dark mode state
+  // Dark mode state
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const numOfCartItems = useSelector(
     (state: RootState) => state?.cartSlice.numOfCartItems
@@ -18,7 +18,7 @@ export default function Navbar() {
     dispatch(loggedUserCart());
   }, [dispatch]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (localStorage.getItem("theme") === "dark") {
       document.documentElement.classList.add("dark");
       setTheme("dark");
@@ -33,9 +33,6 @@ export default function Navbar() {
     signOut({ callbackUrl: "/login" });
   }
 
-
-
-
   const toggleTheme = () => {
     if (theme === "light") {
       document.documentElement.classList.add("dark");
@@ -48,7 +45,7 @@ export default function Navbar() {
     }
   };
 
- return (
+  return (
     <header className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -84,19 +81,17 @@ export default function Navbar() {
 
                   <Link
                     href="/wishlist"
-                    className="relative flex items-center gap-2 px-2 py-1 hover:text-indigo-500 transition-colors"
+                    className="hover:text-indigo-500 transition"
                   >
-                    <span>Wishlist</span>
-                    {numOfWishItems > 0 && (
-                      <span className="absolute -top-2 -right-3 inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
-                        {numOfWishItems}
-                      </span>
-                    )}
+                    Wishlist
                   </Link>
                 </>
               )}
 
-              <Link href="/products" className="hover:text-indigo-500 transition">
+              <Link
+                href="/products"
+                className="hover:text-indigo-500 transition"
+              >
                 Products
               </Link>
               <Link
@@ -201,7 +196,7 @@ export default function Navbar() {
                   className={`fas ${
                     open ? "fa-times" : "fa-bars"
                   } text-xl text-gray-700 dark:text-gray-200`}
-                ></i>
+                />
               </button>
             </div>
           </div>
@@ -217,33 +212,19 @@ export default function Navbar() {
             </Link>
 
             {session && (
-              <>
-                <Link
-                  href="/cart"
-                  className="relative block hover:text-indigo-500 transition"
-                >
-                  Cart
-                  {numOfCartItems > 0 && (
-                    <span className="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-fuchsia-800 rounded-full">
-                      {numOfCartItems}
-                    </span>
-                  )}
-                </Link>
-
-                <Link
-                  href="/wishlist"
-                  className="relative block hover:text-indigo-500 transition"
-                >
-                  Wishlist
-                  {numOfWishItems > 0 && (
-                    <span className="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
-                      {numOfWishItems}
-                    </span>
-                  )}
-                </Link>
-              </>
+              <Link
+                href="/cart"
+                className="block hover:text-indigo-500 transition"
+              >
+                Cart
+              </Link>
             )}
-
+            <Link
+              href="/wishlist"
+              className="block hover:text-indigo-500 transition"
+            >
+              Wishlist
+            </Link>
             <Link
               href="/products"
               className="block hover:text-indigo-500 transition"
@@ -266,11 +247,37 @@ export default function Navbar() {
             {session ? (
               <>
                 <div className="flex items-center gap-4 mt-4 text-lg text-gray-500">
-                  <a href="#" aria-label="Facebook" className="hover:text-blue-600"><i className="fab fa-facebook-f"></i></a>
-                  <a href="#" aria-label="Twitter" className="hover:text-sky-500"><i className="fab fa-twitter"></i></a>
-                  <a href="#" aria-label="Instagram" className="hover:text-pink-500"><i className="fab fa-instagram"></i></a>
-                  <a href="#" aria-label="TikTok" className="hover:text-black"><i className="fab fa-tiktok"></i></a>
-                  <a href="#" aria-label="LinkedIn" className="hover:text-blue-700"><i className="fab fa-linkedin-in"></i></a>
+                  <a
+                    href="#"
+                    aria-label="Facebook"
+                    className="hover:text-blue-600"
+                  >
+                    <i className="fab fa-facebook-f"></i>
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="Twitter"
+                    className="hover:text-sky-500"
+                  >
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="Instagram"
+                    className="hover:text-pink-500"
+                  >
+                    <i className="fab fa-instagram"></i>
+                  </a>
+                  <a href="#" aria-label="TikTok" className="hover:text-black">
+                    <i className="fab fa-tiktok"></i>
+                  </a>
+                  <a
+                    href="#"
+                    aria-label="LinkedIn"
+                    className="hover:text-blue-700"
+                  >
+                    <i className="fab fa-linkedin-in"></i>
+                  </a>
                 </div>
                 <button
                   onClick={logOut}
@@ -281,10 +288,16 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link href="/register" className="block hover:text-indigo-500 transition">
+                <Link
+                  href="/register"
+                  className="block hover:text-indigo-500 transition"
+                >
                   Register
                 </Link>
-                <Link href="/login" className="block hover:text-indigo-500 transition">
+                <Link
+                  href="/login"
+                  className="block hover:text-indigo-500 transition"
+                >
                   Login
                 </Link>
               </>
