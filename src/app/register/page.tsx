@@ -60,8 +60,8 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-gray-100">
+      <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-6">Register Now</h1>
 
         <Form {...form}>
@@ -79,7 +79,7 @@ export default function Register() {
                   <FormControl>
                     <Input
                       {...field}
-                      className="border border-gray-400 rounded-md px-3 py-2 w-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="border border-gray-600 rounded-md px-3 py-2 w-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -98,7 +98,7 @@ export default function Register() {
                     <Input
                       type="email"
                       {...field}
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="border border-gray-600 rounded-md px-3 py-2 w-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -117,7 +117,7 @@ export default function Register() {
                     <Input
                       type="password"
                       {...field}
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="border border-gray-600 rounded-md px-3 py-2 w-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -136,7 +136,7 @@ export default function Register() {
                     <Input
                       type="password"
                       {...field}
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="border border-gray-600 rounded-md px-3 py-2 w-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -155,14 +155,15 @@ export default function Register() {
                     <Input
                       type="tel"
                       {...field}
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="border border-gray-600 rounded-md px-3 py-2 w-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button className="mt-4 w-full py-2 text-lg cursor-pointer">
+
+            <Button className="mt-4 w-full py-2 text-lg bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer">
               {load ? (
                 <i className="fas fa-spinner animate-spin text-white"></i>
               ) : (

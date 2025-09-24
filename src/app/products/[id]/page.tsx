@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Button } from "@/components/ui/button";
 import CarsoulProduct from "@/app/carsoulDetialsProsucts/page";
 import getSpicitifyProducts from "../../../api/getSpicitifyProducts";
 import AddBtn from "@/app/AddBtn/AddBtn";
@@ -32,20 +31,20 @@ console.log(dataRealated)
                   {data.priceAfterDiscount} EGP
                 </span>
               )}
-              <span className="ml-auto text-yellow-500 font-semibold">
+              <span className="ml-auto text-foreground font-semibold">
                 ⭐ {data.ratingsAverage} ({data.ratingsQuantity})
               </span>
             </div>
 
-            <p className="text-gray-600 mb-4 whitespace-pre-line">
+            <p className="text-foreground mb-4 whitespace-pre-line">
               {data.description}
             </p>
 
             <div className="flex gap-4 mb-4">
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-foreground">
                 Brand: <strong>{data.brand?.name}</strong>
               </span>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-foreground">
                 Category: <strong>{data.category?.name}</strong>
               </span>
             </div>

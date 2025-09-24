@@ -1,5 +1,5 @@
 "use server";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import getMyToken from "@/utilities/getMyToken";
 
 export async function addToCartServer(productId: string) {
@@ -18,9 +18,10 @@ export async function addToCartServer(productId: string) {
 
     return response.data;
   } catch (error) {
+    const err = error as AxiosError<{ message: string }>;
     return {
       success: false,
-      message: error.response?.data?.message || error.message,
+      message: err.response?.data?.message || err.message,
     };
   }
 }

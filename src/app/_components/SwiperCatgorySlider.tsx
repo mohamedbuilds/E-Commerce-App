@@ -9,7 +9,7 @@ import { Autoplay } from "swiper/modules"; // استدعاء الموديولا�
 import { CatgoryType } from "@/Types/CatgoreyType";
 
 // Import required modules
-export default function swiperCatgorySlider({ data }: {data: CatgoryType}) {
+export default function swiperCatgorySlider({ data }: {data: CatgoryType[]}) {
   return (
     <Swiper
       modules={[Autoplay]}

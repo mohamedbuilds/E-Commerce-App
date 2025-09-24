@@ -4,6 +4,7 @@ import "./globals.css";
 
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import Navbar from "./_components/Navbar/Navbar";
+import Fotter from "./_components/Fotter/Fotter";
 
 import { Toaster } from "react-hot-toast";
 import SessionProviderApp from "./MySession/SessionProviderApp";
@@ -30,12 +31,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <SessionProviderApp>
-            <Navbar />
-            {children}
-            <Toaster position="top-right" />
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Fotter />
+          <Toaster position="top-right" />
         </SessionProviderApp>
       </body>
     </html>

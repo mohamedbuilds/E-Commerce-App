@@ -24,14 +24,18 @@ export default function Cart() {
   const [disabled, setdisabled] = useState(false);
   const [idItems, setidItems] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const cart = useSelector(
-    (state: RootState) => state?.cartSlice?.cart?.data?.products
-  );
-  const cartId = useSelector((state: RootState) => state?.cartSlice?.cart?.cartId);
-  console.log(cartId)
-  const cartData = useSelector(
-    (state: RootState) => state?.cartSlice.cart.data
-  );
+const cart = useSelector(
+  (state: RootState) => state.cartSlice.cart.data?.products as Root[] | undefined
+);
+
+const cartId = useSelector(
+  (state: RootState) => state.cartSlice.cart.cartId
+);
+
+const cartData = useSelector(
+  (state: RootState) => state.cartSlice.cart.data
+);
+console.log(cartData)
   async function removeCartItems(id: string) {
     try {
       setload(true);
@@ -43,7 +47,7 @@ export default function Cart() {
       } else {
         toast.error("⚠️ Failed to remove item from cart, please try again");
       }
-    } catch (error) {
+    } catch {
       setload(false);
       setdisabled(false);
     } finally {
@@ -52,7 +56,7 @@ export default function Cart() {
     }
   }
 
-  async function updtaeCartItems(id: string, count: number) {
+  async function updtaeCartItems(id: string, count: string) {
     try {
       setloadCount(true);
       setdisabled(true);
@@ -114,9 +118,9 @@ export default function Cart() {
       </div>
     );
   }
-  return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-4xl font-bold mb-4 text-center text-gray-800 mt-20">
+ return (
+    <div className="p-6 bg-background min-h-screen">
+      <h1 className="text-4xl font-bold mb-4 text-center text-foreground mt-20">
         🛒 My Cart
       </h1>
 
@@ -125,7 +129,10 @@ export default function Cart() {
       </p>
 
       {/* Checkout Button */}
-      <Link href={`/cheakout/${cartId}`} className="flex justify-center gap-4 mb-6">
+      <Link
+        href={`/cheakout/${cartId}`}
+        className="flex justify-center gap-4 mb-6"
+      >
         <Button
           className="relative cursor-pointer overflow-hidden bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 
                      hover:from-cyan-500 hover:to-emerald-500 text-white px-10 py-3 
@@ -137,7 +144,7 @@ export default function Cart() {
         </Button>
       </Link>
 
-      {cart?.length > 0 ? (
+      {(cart?.length ?? 0) ? (
         <>
           <div className="flex justify-end mb-4">
             <Button
@@ -147,7 +154,7 @@ export default function Cart() {
               className="bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200 cursor-pointer hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
             >
               {loadClear ? (
-                <i className="fas fa-spinner animate-spin text-gray-600"></i>
+                <i className="fas fa-spinner animate-spin text-white"></i>
               ) : (
                 "Clear All Cart"
               )}
@@ -158,7 +165,7 @@ export default function Cart() {
             {cart?.map((item: Root) => (
               <Card
                 key={item._id}
-                className="flex flex-col justify-between shadow-lg border border-gray-200 hover:shadow-xl transition-all"
+                className="flex flex-col justify-between shadow-lg border border-gray-200 hover:shadow-xl transition-all bg-background"
               >
                 <div className="w-full overflow-hidden rounded-lg relative">
                   <Image
@@ -171,28 +178,28 @@ export default function Cart() {
                 </div>
 
                 <CardContent className="pt-4 flex flex-col gap-2">
-                  <h2 className="text-lg font-semibold text-center text-gray-900">
+                  <h2 className="text-lg font-semibold text-center text-foreground">
                     {item.product.title.split(" ").slice(0, 8).join(" ")}
                   </h2>
-                  <p className="text-sm text-gray-500 text-center">
+                  <p className="text-sm text-muted-foreground text-center">
                     {item.product.brand.name}
                   </p>
 
                   <div className="flex items-center justify-center gap-4 mt-2">
                     <Button
                       onClick={() =>
-                        updtaeCartItems(item.product._id, item.count - 1)
+                        updtaeCartItems(item.product._id, (item.count - 1).toString())
                       }
                       size="sm"
                       disabled={disabled}
-                      className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200"
+                      className="px-3 py-1 cursor-pointer rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       -
                     </Button>
 
-                    <span className="font-medium text-gray-800">
+                    <span className="font-medium text-foreground">
                       {loadCount && idItems === item.product._id ? (
-                        <i className="fas fa-spinner animate-spin text-gray-600"></i>
+                        <i className="fas fa-spinner animate-spin text-foreground"></i>
                       ) : (
                         item.count
                       )}
@@ -200,17 +207,17 @@ export default function Cart() {
 
                     <Button
                       onClick={() =>
-                        updtaeCartItems(item.product._id, item.count + 1)
+                        updtaeCartItems(item.product._id, (item.count + 1).toString())
                       }
                       size="sm"
                       disabled={disabled}
-                      className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200"
+                      className="px-3 py-1 cursor-pointer rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       +
                     </Button>
                   </div>
 
-                  <p className="mt-2 text-center font-bold text-lg text-gray-900">
+                  <p className="mt-2 text-center font-bold text-lg text-foreground">
                     ${item.price}
                   </p>
                 </CardContent>
@@ -233,13 +240,13 @@ export default function Cart() {
           </div>
         </>
       ) : (
-        <Card className="flex flex-col items-center justify-center p-10 shadow-lg bg-white">
+        <Card className="flex flex-col items-center justify-center p-10 shadow-lg bg-background">
           <Image src={imageCart} alt="Empty Cart" width={550} height={150} />
           <CardContent className="text-center mt-4">
-            <h2 className="text-3xl font-semibold text-gray-800">
+            <h2 className="text-3xl font-semibold text-foreground">
               Your cart is empty 🛒
             </h2>
-            <p className="text-gray-500 mt-2">
+            <p className="text-muted-foreground mt-2">
               Looks like you haven’t added anything yet. Start shopping and fill
               your cart!
             </p>

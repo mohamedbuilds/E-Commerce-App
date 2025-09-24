@@ -15,6 +15,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<LoginFormValues>({
@@ -41,9 +42,9 @@ export default function Login() {
       toast.error(response?.error || "Login failed!");
     }
   }
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+ return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-gray-100">
+      <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-6">Login Now</h1>
 
         <Form {...form}>
@@ -62,7 +63,7 @@ export default function Login() {
                     <Input
                       type="email"
                       {...field}
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="border border-gray-600 rounded-md px-3 py-2 w-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -81,7 +82,7 @@ export default function Login() {
                     <Input
                       type="password"
                       {...field}
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="border border-gray-600 rounded-md px-3 py-2 w-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -89,10 +90,8 @@ export default function Login() {
               )}
             />
 
-            {/* RePassword */}
-
             <Button
-              className="mt-4 w-full py-2 text-lg flex justify-center items-center cursor-pointer"
+              className="mt-4 w-full py-2 text-lg flex justify-center items-center bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -101,6 +100,19 @@ export default function Login() {
                 "Login"
               )}
             </Button>
+
+            <Link
+              href="/register"
+              className="mt-2 text-sm text-indigo-400 hover:underline text-center"
+            >
+              Register
+            </Link>
+            <Link
+              href="/forgetpassword"
+              className="mt-2 text-sm text-indigo-400 hover:underline text-center"
+            >
+              Forget Password?
+            </Link>
           </form>
         </Form>
       </div>

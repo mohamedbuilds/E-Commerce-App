@@ -12,13 +12,13 @@ import getAllProducts from "@/api/getAllProducts.api.";
 import Link from "next/link";
 import { ProdcutType } from "@/Types/ProductType";
 import AddBtn from "../AddBtn/AddBtn";
+import AddBtnWishList from "@/AddBtnWishList/AddBtnWishList";
 export default async function Products() {
   const data = await getAllProducts();
-  console.log(data)
-  
+  console.log(data);
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-      <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">
+    <div className="max-w-7xl mx-auto px-6 mt-20 lg:px-8 py-16">
+      <h2 className="text-3xl font-bold text-foreground mb-10 text-center">
         Our Products
       </h2>
 
@@ -29,17 +29,24 @@ export default async function Products() {
             className="hover:shadow-xl transition rounded-2xl overflow-hidden"
           >
             {/* Product Image */}
-            <Link
-              href={`/products/${product.id}`}
-              className="block relative h-60 overflow-hidden"
-            >
-              <Image
-                src={product.imageCover}
-                alt={product.title}
-                fill
-                className="object-cover hover:scale-105 transition"
-              />
-            </Link>
+            <div className="relative h-60 overflow-hidden">
+              <Link
+                href={`/products/${product.id}`}
+                className="block w-full h-full"
+              >
+                <Image
+                  src={product.imageCover}
+                  alt={product.title}
+                  fill
+                  className="object-cover hover:scale-105 transition"
+                />
+              </Link>
+
+              {/* 👇 الزرار هنا برة الـ Link لكنه فوق الصورة */}
+              <AddBtnWishList idProducts={product.id} />
+            </div>
+
+            <AddBtnWishList idProducts={product.id} />
 
             <CardHeader>
               <Link href={`/products/${product.id}`} className="block">
@@ -82,7 +89,7 @@ export default async function Products() {
             </CardFooter>
 
             <div className="px-4 pb-4">
-              <AddBtn id={product?._id}/>
+              <AddBtn id={product?._id} />
             </div>
           </Card>
         ))}

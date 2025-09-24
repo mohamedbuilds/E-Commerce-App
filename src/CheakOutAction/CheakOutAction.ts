@@ -1,12 +1,19 @@
 "use server";
 
 import getMyToken from "@/utilities/getMyToken";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+
+
+interface CheckoutFormValues {
+  details: string;
+  phone: string;
+  city: string;
+}
 
 export async function CheakOutSession(
   id: string,
   url = process.env.NEXTAUTH_URL,
-  formValues
+  formValues: CheckoutFormValues
 ) {
   const token = await getMyToken();
   try {
@@ -20,11 +27,11 @@ export async function CheakOutSession(
       }
     );
     return response.data;
-  } catch (error: any) {
-    console.log(error);
+  } catch (error) {
+   const err = error as AxiosError<{ message: string }>;
     return {
       success: false,
-      message: error.response?.data?.message || error.message,
+      message: err.response?.data?.message || err.message,
     };
   }
 }

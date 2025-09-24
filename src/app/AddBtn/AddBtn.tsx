@@ -28,12 +28,9 @@ export default function AddBtn({ id }: { id: string }) {
   };
 
   return (
-    <Button onClick={addcart} className="w-full cursor-pointer">
-      {isLoading ? (
-        <i className="fas fa-spinner animate-spin text-white"></i>
-      ) : (
-        "Add To Cart"
-      )}
+<Button onClick={addcart} className="w-full cursor-pointer">
+   {isLoading ? ( <i className="fas fa-spinner animate-spin text-white dark:text-black"></i> )
+    : ( "Add To Cart" )} 
     </Button>
   );
 }

@@ -17,7 +17,7 @@ export interface Product {
   imageCover: string
   quantity: number
   ratingsAverage: number
-  subcategory: any[]
+  subcategory: []
   title: string
   _id: string
 }

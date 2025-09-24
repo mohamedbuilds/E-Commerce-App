@@ -6,17 +6,47 @@ import {
   updateCartServer,
 } from "@/CartAction/CartAction";
 import { UpdateUserCartParams } from "@/Types/cartType";
-import { createAsyncThunk, createSlice  } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 
+interface Product {
+  _id: string;
+  product: {
+    _id: string;
+    title: string;
+    imageCover: string;
+    brand: { name: string };
+    price: number;
+  };
+  count: number;
+  price: number;
+}
 
+interface CartData {
+  cartOwner: string;
+  createdAt: string;
+  products: Product[];
+  totalCartPrice: number;
+  updatedAt: string;
+  _id: string;
+  __v: number;
+}
 
-const initialState: {
-  cart: { products: [] };
+interface CartState {
+  cart: {
+    cartId: string | null;
+    data: CartData | null;
+  };
   isLoading: boolean;
   error: string | null;
   numOfCartItems: number;
-} = {
-  cart: { products: [] },
+}
+
+const initialState: CartState = {
+  cart: {
+    cartId: null,
+    data: null, // ممكن بعد جلب الـ API يبقى فيه بيانات
+  },
   isLoading: false,
   error: null,
   numOfCartItems: 0,
@@ -29,19 +59,20 @@ export const addToCart = createAsyncThunk(
       const data = await addToCartServer(productId);
       return data; // ده هيتخزن في action.payload
     } catch (error) {
-      return error.message
+      const err = error as AxiosError<{ message: string }>;
+      return err.message;
     }
   }
 );
 
 export const loggedUserCart = createAsyncThunk<
-  unknown,
+  { cartId: string | null; data: CartData | null; numOfCartItems: number }, // type returned
   void,
   { rejectValue: string }
 >("cart/loggedUserCart", async (_, thunkAPI) => {
   try {
     const datelogged = await loggedCartServer();
-    return datelogged;
+    return datelogged; // تأكد إن datelogged بنفس الشكل
   } catch (error) {
     const message =
       (error as { response?: { data?: { message?: string } } })?.response?.data
@@ -52,7 +83,7 @@ export const loggedUserCart = createAsyncThunk<
 
 export const removeUserCart = createAsyncThunk(
   "cart/removeUserCart",
-  async (id:string) => {
+  async (id: string) => {
     try {
       const dateremove = await removeCartServer(id);
       return dateremove;
@@ -158,7 +189,10 @@ const cartSlice = createSlice({
       })
       .addCase(clearUserCart.fulfilled, (state) => {
         state.isLoading = false;
-        state.cart = { products: [] };
+        state.cart = {
+          cartId: null,
+          data: null,
+        };
         state.numOfCartItems = 0;
       })
       .addCase(clearUserCart.rejected, (state, action) => {

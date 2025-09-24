@@ -1,6 +1,6 @@
 "use server";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export async function getRelatedProducts(id: string) {
   try {
@@ -9,10 +9,11 @@ export async function getRelatedProducts(id: string) {
     );
     return res.data; // ✅ رجع البيانات بس
   } catch (error) {
-    console.error("Error fetching related products:", error.message);
+                const err = error as AxiosError<{ message: string }>;
+
     return {
       success: false,
-      message: error.response?.data?.message || "Failed to fetch products",
+      message: err.response?.data?.message || "Failed to fetch products",
     };
   }
 }

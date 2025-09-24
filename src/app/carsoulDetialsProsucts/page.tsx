@@ -21,7 +21,7 @@ export default function CarsoulProduct({ dataDetials }: {dataDetials: ProdcutTyp
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
-        {dataDetials.images.map((el, index) => (
+        {dataDetials?.images?.map((el, index) => (
           <CarouselItem key={index}>
             <div className="p-1">
               <Image
