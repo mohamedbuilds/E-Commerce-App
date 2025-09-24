@@ -84,9 +84,14 @@ export default function Navbar() {
 
                   <Link
                     href="/wishlist"
-                    className="hover:text-indigo-500 transition"
+                    className="relative flex items-center gap-2 px-2 py-1 hover:text-indigo-500 transition-colors"
                   >
-                    Wishlist
+                    <span>Wishlist</span>
+                    {numOfWishItems > 0 && (
+                      <span className="absolute -top-2 -right-3 inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
+                        {numOfWishItems}
+                      </span>
+                    )}
                   </Link>
                 </>
               )}
@@ -212,12 +217,31 @@ export default function Navbar() {
             </Link>
 
             {session && (
-              <Link
-                href="/cart"
-                className="block hover:text-indigo-500 transition"
-              >
-                Cart
-              </Link>
+              <>
+                <Link
+                  href="/cart"
+                  className="relative block hover:text-indigo-500 transition"
+                >
+                  Cart
+                  {numOfCartItems > 0 && (
+                    <span className="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-fuchsia-800 rounded-full">
+                      {numOfCartItems}
+                    </span>
+                  )}
+                </Link>
+
+                <Link
+                  href="/wishlist"
+                  className="relative block hover:text-indigo-500 transition"
+                >
+                  Wishlist
+                  {numOfWishItems > 0 && (
+                    <span className="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
+                      {numOfWishItems}
+                    </span>
+                  )}
+                </Link>
+              </>
             )}
 
             <Link
